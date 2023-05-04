@@ -4,8 +4,8 @@ class Game {
         this.cellSpace = 1;
         this.deadColor = `white`;
         this.aliveColor = `green`;
-        this.cellsInColumn = 100
-        this.cellsInRows = 100
+        this.cellsInColumn = 100;
+        this.cellsInRows = 100;
         this.activeArray = [];
         this.mouseDown = false;
         this.lastX = 0;
@@ -82,23 +82,26 @@ class Game {
 
         this.updateCellValue = (row, col) => {
             const neighbours = this.countNeighbours(row, col);
-            if (neighbours > 4 || neighbours < 3) {
-                return 0;
-            }
-            else if (this.activeArray[row][col] === 0 && neighbours === 3) {
+            if (this.activeArray[row][col] === 0 && neighbours === 3) {
                 return 1;
-            }
-            else {
+            } else if (this.activeArray[row][col] === 1 && (neighbours === 2 || neighbours === 3)) {
+                return 1;
+            } else if (neighbours > 3 || neighbours < 2) {
+                return 0;
+            } else {
                 return this.activeArray[row][col];
             }
         };
 
         this.updateLifeCycle = () => {
+            let arr = [];
             for (let i = 0; i < this.cellsInRows; i++) {
+                    arr[i] = [];
                 for (let j = 0; j < this.cellsInColumn; j++) {
-                    this.activeArray[i][j] = this.updateCellValue(i, j);
+                    arr[i][j] = this.updateCellValue(i, j);
                 }
             }
+            this.activeArray = arr;
         };
 
         this.setGameField = () => {
